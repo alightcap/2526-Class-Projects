@@ -9,13 +9,13 @@ dot.x = width / 2;
 dot.y = height / 2;
 
 // dot.direction = random(360);
-dot.direction = 90;
+dot.direction = 180;
 dot.speed = 5;
 
 function update() {
 	background('skyblue');
 
-	if (dot.y > height) {
-		dot.velocity.y *= -1;
+	if (dot.x < 0 + dot.radius) {
+		dot.velocity.x *= -1;
 	}
 }
