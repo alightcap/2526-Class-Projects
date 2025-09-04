@@ -2,6 +2,21 @@ new Q5();
 
 new Canvas(768, 576);
 
+let maze = [
+	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	[1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1],
+	[1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1],
+	[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1],
+	[1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+	[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1],
+	[1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1],
+	[1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1],
+	[1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1],
+	[1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1],
+	[1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+]
+
 let playerIdle = loadAni(
 	'assets/idle.png',
 	{ frameSize: [24, 24], frames: 3 }
@@ -15,6 +30,7 @@ let playerWalk = loadAni(
 playerWalk.frameDelay = 6;
 
 let player = createPlayer();
+createMaze(maze);
 
 function update() {
 	background('skyblue');
@@ -22,6 +38,11 @@ function update() {
 
 function createPlayer() {
 	let s = new Sprite();
+	// s.debug = true;
+	s.width = 8;
+	s.height = 8;
+	s.rotationLock = true;
+
 	s.addAni('idle', playerIdle);
 	s.addAni('walk', playerWalk);
 
@@ -46,6 +67,12 @@ function createPlayer() {
 
 		if (s.vel.x > 0) {
 			s.scale.x = s.scaleValue;
+		}
+
+		if (s.isMoving) {
+			s.changeAni('walk');
+		} else {
+			s.changeAni('idle');
 		}
 	}
 
@@ -74,4 +101,19 @@ function createPlayer() {
 	}
 
 	return s;
+}
+
+function createMaze(maze) {
+	for (let i = 0; i < maze.length; i++) {
+		for (let j = 0; j < maze[0].length; j++) {
+			if (maze[i][j] == 1) {
+				let x = j * 48 + 24;
+				let y = i * 48 + 24;
+
+				let wall = new Sprite(x, y);
+				wall.color = 'green';
+				wall.physics = 'STATIC';
+			}
+		}
+	}
 }
