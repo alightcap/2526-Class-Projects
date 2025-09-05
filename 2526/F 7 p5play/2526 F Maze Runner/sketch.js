@@ -29,11 +29,59 @@ let playerWalk = loadAni(
 );
 playerWalk.frameDelay = 6;
 
+let coinSpin = loadAni(
+	'assets/red_coin.png',
+	{ frameSize: [16, 16], frames: 5 }
+);
+coinSpin.frameDelay = 12;
+
+
 let player = createPlayer();
+let coin = createCoin();
 createMaze(maze);
+let gameOverText = createGameOverText();
+let coinCount = 1;
+
+player.overlaps(coin, coin.collect);
+
 
 function update() {
 	background('skyblue');
+
+	if (coinCount == 0) { // if game over...
+		gameOverText.visible = true;
+	}
+}
+
+function createCoin() {
+	let coin = new Sprite();
+	// coin.debug = true;
+	coin.w = 12;
+	coin.h = 12;
+	coin.addAni(coinSpin);
+	coin.rotationLock = true;
+	coin.scale = 1.5;
+	coin.x = width - 2 * 48 - 24;
+	coin.y = 48 + 24;
+
+	coin.collect = () => {
+		coinCount--;
+		coin.delete();
+	}
+
+	return coin;
+}
+
+function createGameOverText() {
+	let s = new Sprite();
+	s.physics = 'NONE';
+	s.text = 'You Win!';
+	s.textSize = 180;
+	s.width = 0;
+	s.height = 0;
+	s.visible = false;
+
+	return s;
 }
 
 function createPlayer() {
@@ -50,6 +98,9 @@ function createPlayer() {
 	s.walkSpeed = 5;  // this is a custom property
 
 	s.scale = s.scaleValue;
+
+	s.x = 48 + 24;
+	s.y = halfHeight + 48 + 24;
 
 	s.update = () => {
 		let inputVector = s.getInput();
