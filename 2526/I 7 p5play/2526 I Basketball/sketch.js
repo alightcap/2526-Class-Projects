@@ -9,6 +9,9 @@ let playerRun;
 let ground;
 let basketball;
 let basketballImg;
+let goal;
+let score;
+let scoreUI;
 
 function preload() {
     playerIdle = loadAni(
@@ -29,12 +32,21 @@ function preload() {
 
 function setup() {
     player = createPlayer();  // call the function that creates the player sprite, and store the sprite here.
+    player.x = halfWidth;
+    player.y = height - 50;
+
+    score = 0;
+
     ground = createGround();
     basketball = createBasketball();
     createWalls();
+    goal = createGoal();
+    scoreUI = createScoreUI();
 
     player.overlaps(basketball, player.getBall);
     player.overlapped(basketball, player.canShoot);
+    basketball.overlapped(goal.sensor, goal.checkGoal);
+
 }
 
 
@@ -51,8 +63,72 @@ function createBasketball() {
     b.scale = 2;
     b.bounciness = 0.5;
     b.mass = 1;
+    b.layer = 1;
 
     return b;
+}
+
+
+function createGoal() {
+    let g = new Sprite();
+
+    g.physics = 'KINEMATIC';  // motion can only happen through code
+    g.color = 'white';
+    g.x = halfWidth;
+    g.y = halfHeight;
+    g.width = 150;
+    g.height = 100;
+    g.layer = 0;
+
+    let left = new Sprite();
+    left.color = 'orange';
+    left.diameter = 5;
+    left.x = g.x - 20;
+    left.y = g.y + g.halfHeight / 2;
+    left.layer = 1;
+
+    new GlueJoint(g, left);
+
+    let right = new Sprite();
+    right.color = 'orange';
+    right.diameter = 5;
+    right.x = g.x + 20;
+    right.y = g.y + g.halfHeight / 2;
+    right.layer = 1;
+
+    new GlueJoint(g, right);
+
+    let front = new Sprite();
+    front.color = 'orange';
+    front.width = 40;
+    front.height = 5;
+    front.x = g.x;
+    front.y = g.y + g.halfHeight / 2;
+    front.layer = 2;
+
+    new GlueJoint(g, front);
+
+    let sensor = new Sprite();
+    sensor.x = g.x;
+    sensor.y = g.y + g.halfHeight / 2;
+    sensor.width = 30;
+    sensor.height = 1;
+    sensor.visible = false;
+
+    g.sensor = sensor;
+
+    new GlueJoint(g, sensor);
+
+    g.overlaps(allSprites);
+    front.overlaps(allSprites);
+
+    g.checkGoal = (ball) => {
+        if (ball.vel.y > 0) {
+            score += 2;
+        }
+    }
+
+    return g;
 }
 
 
@@ -155,6 +231,24 @@ function createPlayer() {  // set up and return the player sprite
     }
 
     return p;
+}
+
+
+function createScoreUI() {
+    let s = new Sprite();
+    s.physics = 'NONE';
+    s.width = 0;
+    s.height = 0;
+    s.textSize = 50;
+    s.text = score;
+    s.x = halfWidth;
+    s.y = 50;
+
+    s.update = () => {
+        s.text = score;
+    }
+
+    return s;
 }
 
 
