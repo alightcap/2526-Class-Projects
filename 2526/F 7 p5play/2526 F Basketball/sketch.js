@@ -117,7 +117,14 @@ function createGoal() {
     g.checkGoal = (sensor, ball) => {
         if (ball.vel.y > 0) {
             score += 2;
+            g.moveGoal();
         }
+    }
+
+    g.moveGoal = () => {
+        let x = random(100, width - 100);
+        let y = random(halfHeight, 3 / 4 * height);
+        g.moveTo(x, y, 5);
     }
 
     return g;
