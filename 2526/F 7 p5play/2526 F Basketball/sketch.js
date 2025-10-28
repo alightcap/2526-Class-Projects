@@ -4,6 +4,7 @@ new Canvas(800, 600);
 world.gravity.y = 10;  // add gravity to the world
 
 // define variables to hold references to the sprites
+// variables to hold values
 let player;
 let playerIdle;
 let playerRun;
@@ -53,6 +54,7 @@ function setup() {
 function update() {
     background('skyblue');
 }
+
 
 function createBasketball() {
     let b = new Sprite();
