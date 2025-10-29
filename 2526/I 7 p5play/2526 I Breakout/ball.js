@@ -4,8 +4,24 @@ ball.radius = 10;
 ball.moveSpeed = 5;
 ball.color = 'orange';
 
-ball.direction = 0;
+ball.friction = 0;
+ball.bounciness = 1;
+
+ball.speed = 0;
+ball.isActive = false;
 
 ball.update = () => {
-    ball.speed = ball.moveSpeed;
+    if (ball.isActive) {
+        ball.speed = ball.moveSpeed;
+    } else {
+        ball.speed = 0;
+    }
+}
+
+ball.setActive = (isActive) => {
+    ball.isActive = isActive;
+}
+
+ball.chooseDirection = () => {
+    ball.direction = random(-45, -135);
 }
