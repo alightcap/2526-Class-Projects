@@ -1,8 +1,7 @@
-let player;
+let player = new Sprite();
 
-player = new Sprite();
-player.w = 100;
-player.h = 20;
+player.width = 100;
+player.height = 20;
 player.color = 'orange';
 player.rotationLock = true;
 player.physics = 'KINEMATIC';
