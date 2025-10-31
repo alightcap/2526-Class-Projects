@@ -21,3 +21,11 @@ ceiling.width = width;
 ceiling.height = 10;
 ceiling.physics = 'STATIC';
 ceiling.color = 'black';
+
+let floor = new Sprite();
+floor.x = width / 2;
+floor.y = height;
+floor.width = width;
+floor.height = 10;
+floor.physics = 'STATIC';
+floor.color = 'black';
