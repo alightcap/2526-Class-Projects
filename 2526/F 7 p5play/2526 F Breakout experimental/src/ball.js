@@ -1,7 +1,7 @@
 // ball.js
 let ball = new Sprite();
 
-ball.color = 'orange';
+ball.color = 'coral';
 ball.diameter = 20;
 ball.moveSpeed = 5;
 ball.bounciness = 1;

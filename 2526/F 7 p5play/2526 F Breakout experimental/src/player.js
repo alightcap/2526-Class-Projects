@@ -6,6 +6,14 @@ player.color = 'orange';
 player.rotationLock = true;
 player.physics = 'KINEMATIC';
 
+player.moveSpeed = 5;
+
 player.update = () => {
-    player.moveTowards(mouse.x, player.prevPos.y, 0.1);
+    let dist = mouse.x - player.x
+    let direction = dist / abs(dist)
+    if (abs(dist) < 5) {
+        direction = 0;
+    }
+    player.vel.x = direction * player.moveSpeed;
+    // player.moveTowards(mouse.x, player.prevPos.y, 0.1);
 }
