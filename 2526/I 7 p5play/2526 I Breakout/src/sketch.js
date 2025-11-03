@@ -28,9 +28,15 @@ function update() {
 
 
 function gameOver() {
-    // show a game over message
+    endGameText.youLose();
     ball.setActive(false);
     // we could make the paddle stop as well if we wanted...
+}
+
+
+function gameWon() {
+    endGameText.youWin();
+    ball.setActive(false);
 }
 
 
@@ -38,6 +44,9 @@ function onHitBrick(brick, ball) {
     bricks.onHit(brick);
     if (brick.deleted) {
         score += brick.pointValue;
+    }
+    if (bricks.length < 1) {
+        gameWon();
     }
 }
 

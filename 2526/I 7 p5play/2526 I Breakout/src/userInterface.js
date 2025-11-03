@@ -15,3 +15,17 @@ scoreText.update = () => {
 let endGameText = new Sprite();
 endGameText.physics = 'NONE';
 endGameText.textSize = 30;
+endGameText.textColor = 'white';
+endGameText.width = 0;
+endGameText.height = 0;
+endGameText.visible = false;
+
+endGameText.youLose = () => {
+    endGameText.text = "You Lose!";
+    endGameText.visible = true;
+}
+
+endGameText.youWin = () => {
+    endGameText.text = "You Win!";
+    endGameText.visible = true;
+}
