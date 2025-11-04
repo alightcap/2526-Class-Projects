@@ -11,6 +11,8 @@ ball.isActive = false;
 ball.update = () => {
     if (ball.isActive) {
         ball.speed = ball.moveSpeed;
+    } else {
+        ball.speed = 0;
     }
 }
 
